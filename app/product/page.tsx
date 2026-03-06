@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+  
 
 interface Product {
   stacklineSku: string;
@@ -21,6 +22,7 @@ interface Product {
 
 export default function ProductPage() {
   const searchParams = useSearchParams();
+  
   const productParam = searchParams.get('product');
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);

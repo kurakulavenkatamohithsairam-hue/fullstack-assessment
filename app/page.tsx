@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -172,9 +173,9 @@ export default function Home() {
                   <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
                     <CardHeader className="p-0">
                       <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">
-                        {product.imageUrls[0] && (
+                        {product.imageUrls && product.imageUrls.length > 0 && (
                           <Image
-                            src={product.imageUrls[0]}
+                              src={product.imageUrls[0]}
                             alt={product.title}
                             fill
                             className="object-contain p-4"
