@@ -1,37 +1,77 @@
-# Stackline Full Stack Assignment
+# Stackline Full Stack Assessment
 
 ## Overview
 
-This is a sample eCommerce website that includes:
-- Product List Page
-- Search Results Page
-- Product Detail Page
+This project is a sample eCommerce application that includes:
 
-The application contains various bugs including UX issues, design problems, functionality bugs, and potential security vulnerabilities.
+* Product List Page
+* Search Results Page
+* Product Detail Page
 
-## Getting Started
+The purpose of this exercise was to review the application, identify issues, fix bugs, and document the improvements made.
 
-```bash
-yarn install
-yarn dev
+---
+
+## Issues Identified and Fixes
+
+### 1. Product images not loading
+
+**Issue**
+
+Product images were not rendering correctly and the browser console showed an error related to the Next.js `Image` component.
+
+**Fix**
+
+Updated the `next.config.ts` configuration to allow images from the external domains used in the dataset.
+
+```ts
+images: {
+  remotePatterns: [
+    { protocol: "https", hostname: "m.media-amazon.com" },
+    { protocol: "https", hostname: "images-na.ssl-images-amazon.com" }
+  ]
+}
 ```
 
-## Your Task
+**Reason**
 
-1. **Identify and fix bugs** - Review the application thoroughly and fix any issues you find
-2. **Document your work** - Create a comprehensive README that includes:
-   - What bugs/issues you identified
-   - How you fixed each issue
-   - Why you chose your approach
-   - Any improvements or enhancements you made
+Next.js restricts loading images from external domains unless they are explicitly configured. Adding these domains resolved the issue.
 
-We recommend spending no more than 2 hours on this assignment. We are more interested in the quality of your work and your communication than the amount of time you spend or how many bugs you fix!
+---
 
-## Submission
+### 2. Runtime crash when product images were missing
 
-- Fork this repository
-- Make your fixes and improvements
-- **Replace this README** with your own that clearly documents all changes and your reasoning
-- Provide your Stackline contact with a link to a git repository where you have committed your changes
+**Issue**
 
-We're looking for clear communication about your problem-solving process as much as the technical fixes themselves.
+During testing, the application crashed when a product did not contain image data. The UI attempted to access `imageUrls[0]`, which caused a runtime error when the array was undefined or empty.
+
+**Fix**
+
+Added a defensive check before rendering the image.
+
+```tsx
+product.imageUrls && product.imageUrls.length > 0
+```
+
+**Reason**
+
+This prevents the application from attempting to access an image when none exists, improving application stability.
+
+---
+
+## Improvements and Validation
+
+After fixing the issues above, the following flows were tested to verify the application works as expected:
+
+* Loading the product list page
+* Searching for products
+* Filtering by category and subcategory
+* Opening product detail pages
+* Returning to the product list page
+* Checking browser console logs for runtime errors
+
+---
+
+## Summary
+
+The main issues discovered during testing were related to external image loading and a runtime crash caused by missing image data. Updating the Next.js configuration and adding defensive checks resolved these issues and improved the stability of the application.
